@@ -1,0 +1,61 @@
+#include "Class.h"
+#include <iostream>
+#include <SFML/Graphics.hpp>
+
+
+
+
+Game::Game(int width, int height, const char* title) {
+
+	sf::RectangleShape player(sf::Vector2f(260,440));
+	player.setOrigin(100.0f, 100.0f);
+	sf::Event ev;
+	sf::RenderWindow win(sf::VideoMode(width, height), title, sf::Style::Close | sf::Style::Titlebar);
+	sf::Texture mago;
+	mago.loadFromFile("assets/mage.png");
+	player.setTexture(&mago);
+	while (win.isOpen()) {
+		while (win.pollEvent(ev)) {
+			switch (ev.type) {
+			case sf::Event::Closed:
+				win.close();
+				break;
+			case sf::Event::TextEntered:
+				if (ev.text.unicode < 128) {
+					printf("%c", ev.text.unicode);
+				}
+			}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+			player.move(sf::Vector2f(-0.1f,0));
+			player.setSize(sf::Vector2f(player.getSize().x - 0.10f, player.getSize().y));
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+			player.move(sf::Vector2f(0, -0.1f));
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+			player.move(sf::Vector2f(0.1f, 0));
+
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+			player.move(sf::Vector2f(0, 0.1f));
+
+		}
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			player.setPosition((sf::Vector2f)sf::Mouse::getPosition(win));
+		}
+		//Game here:
+		win.clear();
+		//player.setFillColor(sf::Color(0, 110, 95, 255));
+		win.draw(player);
+		win.display();
+	}
+
+}
+
+Game::~Game() {
+}
