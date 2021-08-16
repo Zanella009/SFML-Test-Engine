@@ -5,7 +5,7 @@
 #include "Snake.h"
 
 
-enum class GameStates {MAINMENU, GAME, OPTION};
+enum class GameStates {MAINMENU, GAME, GAMEOVER};
 class Game
 {
 private:
@@ -15,6 +15,8 @@ private:
 	Snake player;
 	sf::RectangleShape MainMenu;
 	sf::Texture MainMenuIMG;
+	sf::RectangleShape GameOver;
+	sf::Texture GameOverIMG;
 	sf::Vector2f movSnake;
 	sf::RectangleShape apple;
 	bool right = true, left = false, up = false, down = false;

@@ -41,11 +41,16 @@ void Game::Input()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
 			gs = GameStates::MAINMENU;
 		}
-
-		/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			player.tamanho++;
-		}*/
+		
 		//Entradas do Mouse
+
+
+
+	}else if (gs == GameStates::GAMEOVER) {
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			gs = GameStates::GAME;
+		}
 
 	}
 }
@@ -124,7 +129,8 @@ void Game::Update()
 					player.tamanho = 5;
 					player.pontuacao = 0;
 					vidas = 3;
-					same = 5;
+					gs = GameStates::GAMEOVER;
+
 				}
 				if (player.tamanho < 5) {
 					player.tamanho = 5;
@@ -133,6 +139,12 @@ void Game::Update()
 		}
 		//Movimenta o player
 		player.head.move(movSnake);
+
+
+	}else if (gs == GameStates::GAMEOVER) {
+
+
+
 	}
 }
 void Game::Render()
@@ -179,6 +191,16 @@ void Game::Render()
 
 		//Fim do Render
 		win.display();
+	}else if (gs == GameStates::GAMEOVER) {
+		win.clear();
+
+		//Game Over
+		GameOver.setPosition(0, 0);
+		GameOver.setSize(sf::Vector2f(width, height));
+		GameOver.setTexture(&GameOverIMG);
+		win.draw(GameOver);
+
+		win.display();
 	}
 }
 
@@ -194,6 +216,7 @@ Game::Game(int width, int height, const char* title)
 	apple.setPosition(10,10);
 	font.loadFromFile("assets/arial.ttf");
 	MainMenuIMG.loadFromFile("assets/Snake.png");
+	GameOverIMG.loadFromFile("assets/game-over.png");
 	player.head.setPosition(apple.getPosition());
 	while (win.isOpen()) {
 		while (win.pollEvent(ev)) {
